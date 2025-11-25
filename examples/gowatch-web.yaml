@@ -1,0 +1,101 @@
+# GoWatch Configuration for Web Projects (Node.js/TypeScript/React/Vue)
+# Copy this to your web project root as gowatch.yaml
+
+watch:
+  - path: "./src"
+    recursive: true
+  
+  - path: "./public"
+    recursive: true
+    
+  # Watch config files
+  - path: "./package.json"
+    recursive: false
+
+ignore:
+  # Dependencies
+  - "**/node_modules/**"
+  
+  # Build outputs
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/.next/**"
+  - "**/.nuxt/**"
+  - "**/out/**"
+  
+  # Cache
+  - "**/.cache/**"
+  - "**/.parcel-cache/**"
+  - "**/.vite/**"
+  
+  # Package manager lock files
+  - "**/package-lock.json"
+  - "**/yarn.lock"
+  - "**/pnpm-lock.yaml"
+  
+  # Generated files
+  - "**/*.map"
+  - "**/*.min.js"
+  - "**/*.min.css"
+  
+  # IDEs
+  - "**/.idea/**"
+  - "**/.vscode/**"
+  - "**/*.swp"
+  
+  # Version control
+  - ".git/**"
+
+on_change:
+  commands:
+    # TypeScript type checking (if using TypeScript)
+    # - cmd: ["npm", "run", "type-check"]
+    #   run: sequential
+    #   timeout: "60s"
+    
+    # Linting
+    - cmd: ["npm", "run", "lint"]
+      run: sequential
+      timeout: "60s"
+    
+    # Run tests
+    - cmd: ["npm", "test"]
+      run: sequential
+      timeout: "120s"
+    
+    # Build project
+    - cmd: ["npm", "run", "build"]
+      run: sequential
+      timeout: "180s"
+
+debounce: "500ms"
+max_concurrency: 1
+
+# Alternative Commands for Different Frameworks:
+#
+# React (Create React App):
+#   - cmd: ["npm", "test", "--", "--watchAll=false"]
+#   - cmd: ["npm", "run", "build"]
+#
+# Next.js:
+#   - cmd: ["npm", "run", "lint"]
+#   - cmd: ["npm", "run", "build"]
+#
+# Vue:
+#   - cmd: ["npm", "run", "lint"]
+#   - cmd: ["npm", "run", "build"]
+#
+# Angular:
+#   - cmd: ["ng", "lint"]
+#   - cmd: ["ng", "test", "--watch=false"]
+#   - cmd: ["ng", "build"]
+#
+# Svelte:
+#   - cmd: ["npm", "run", "check"]
+#   - cmd: ["npm", "run", "build"]
+#
+# Using Yarn:
+#   Replace "npm" with "yarn"
+#
+# Using pnpm:
+#   Replace "npm" with "pnpm"

@@ -1,0 +1,69 @@
+# GoWatch Ignore File
+# Similar to .gitignore - patterns to exclude from watching
+# Lines starting with # are comments
+
+# Dependencies
+vendor/
+node_modules/
+.bundle/
+
+# Version control
+.git/
+.svn/
+.hg/
+.bzr/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*~
+.*.sw?
+
+# Build outputs
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.a
+dist/
+build/
+target/
+out/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Language-specific
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage
+*.egg-info/
+.mypy_cache/
+
+# Go specific
+*.test
+*.prof
+coverage.out

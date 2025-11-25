@@ -1,0 +1,67 @@
+# GoWatch Configuration Example for Windows
+# This file configures the file watcher and command runner on Windows
+
+# Watch paths and patterns
+watch:
+  # Watch the current directory recursively
+  - path: "./"
+    recursive: true
+    ignore:
+      # Ignore vendored dependencies
+      - "vendor/**"
+      - "node_modules/**"
+      
+      # Ignore version control
+      - ".git/**"
+      - ".svn/**"
+      
+      # Ignore temporary and build files
+      - "**/*.tmp"
+      - "**/*.log"
+      - "**/dist/**"
+      - "**/build/**"
+      
+      # Ignore IDE files
+      - ".idea/**"
+      - ".vscode/**"
+      - "*.suo"
+      - "*.user"
+      
+      # Windows-specific ignores
+      - "~$*"
+      - "*.lnk"
+      - "$RECYCLE.BIN/**"
+      - "System Volume Information/**"
+
+# Commands to run when files change
+on_change:
+  commands:
+    # Run Go tests
+    - cmd: ["go", "test", "./..."]
+      run: sequential
+      timeout: "60s"
+    
+    # Build the project
+    - cmd: ["go", "build", "./..."]
+      run: sequential
+      timeout: "30s"
+    
+    # Example: Using PowerShell
+    # - cmd: ["powershell", "-Command", "Write-Host 'File changed: {path}'"]
+    #   timeout: "5s"
+    
+    # Example: Using cmd.exe
+    # - cmd: ["cmd", "/C", "echo File changed: {path}"]
+    #   timeout: "5s"
+    
+    # Example: Run batch file
+    # - cmd: ["cmd", "/C", "build.bat"]
+    #   timeout: "60s"
+
+# Debounce interval - prevents rapid retriggering
+# Waits this duration after the last change before running commands
+debounce: "250ms"
+
+# Maximum number of commands to run concurrently
+# Set to 1 for strictly sequential execution
+max_concurrency: 2

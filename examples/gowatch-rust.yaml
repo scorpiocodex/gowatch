@@ -1,0 +1,71 @@
+# GoWatch Configuration for Rust Projects
+# Copy this to your Rust project root as gowatch.yaml
+
+watch:
+  - path: "./src"
+    recursive: true
+  
+  - path: "./tests"
+    recursive: true
+    
+  - path: "Cargo.toml"
+    recursive: false
+
+ignore:
+  # Build artifacts
+  - "**/target/**"
+  - "**/*.rlib"
+  - "**/*.rmeta"
+  - "**/*.d"
+  
+  # Cargo lock (don't retrigger on lock changes)
+  - "**/Cargo.lock"
+  
+  # Backup files
+  - "**/*.rs.bk"
+  - "**/*.bk"
+  
+  # IDEs
+  - "**/.idea/**"
+  - "**/.vscode/**"
+  - "**/*.swp"
+  
+  # Version control
+  - ".git/**"
+
+on_change:
+  commands:
+    # Fast check (syntax and borrow checker)
+    - cmd: ["cargo", "check"]
+      run: sequential
+      timeout: "60s"
+    
+    # Run tests
+    - cmd: ["cargo", "test"]
+      run: sequential
+      timeout: "180s"
+    
+    # Build in debug mode
+    - cmd: ["cargo", "build"]
+      run: sequential
+      timeout: "120s"
+    
+    # Clippy for linting (optional)
+    # - cmd: ["cargo", "clippy", "--", "-D", "warnings"]
+    #   run: sequential
+    #   timeout: "90s"
+    
+    # Format check (optional)
+    # - cmd: ["cargo", "fmt", "--", "--check"]
+    #   run: sequential
+    #   timeout: "30s"
+
+debounce: "750ms"  # Rust compilation can be slower
+max_concurrency: 1
+
+# Notes:
+# - cargo check is fast and catches most errors
+# - Increase timeouts if you have a large project
+# - For release builds: cargo build --release
+# - For specific tests: cargo test test_name
+# - For benchmarks: cargo bench

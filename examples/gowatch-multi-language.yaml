@@ -1,0 +1,80 @@
+# GoWatch Configuration for Multi-Language Projects
+# For projects with multiple languages (e.g., Go backend + React frontend)
+
+watch:
+  # Backend (Go)
+  - path: "./backend"
+    recursive: true
+    ignore:
+      - "**/vendor/**"
+      - "**/*.exe"
+      - "**/bin/**"
+  
+  # Frontend (React/Vue/etc)
+  - path: "./frontend/src"
+    recursive: true
+    ignore:
+      - "**/node_modules/**"
+      - "**/dist/**"
+      - "**/build/**"
+  
+  # Shared/Common
+  - path: "./shared"
+    recursive: true
+
+  # API definitions
+  - path: "./api"
+    recursive: true
+
+ignore:
+  # Version control
+  - ".git/**"
+  
+  # IDEs
+  - "**/.idea/**"
+  - "**/.vscode/**"
+  
+  # OS files
+  - "**/.DS_Store"
+  - "**/Thumbs.db"
+
+on_change:
+  commands:
+    # Backend tests (Go)
+    - cmd: ["go", "test", "./backend/..."]
+      run: sequential
+      timeout: "120s"
+    
+    # Backend build (Go)
+    - cmd: ["go", "build", "-o", "bin/server", "./backend/cmd/server"]
+      run: sequential
+      timeout: "60s"
+    
+    # Frontend lint (JavaScript/TypeScript)
+    - cmd: ["npm", "run", "lint"]
+      run: sequential
+      timeout: "60s"
+    
+    # Frontend tests
+    - cmd: ["npm", "test", "--", "--watchAll=false"]
+      run: sequential
+      timeout: "120s"
+    
+    # Frontend build
+    - cmd: ["npm", "run", "build"]
+      run: sequential
+      timeout: "180s"
+    
+    # Run integration tests (optional)
+    # - cmd: ["./scripts/integration-test.sh"]
+    #   run: sequential
+    #   timeout: "300s"
+
+debounce: "750ms"  # Higher debounce for large projects
+max_concurrency: 2  # Can run backend and frontend in parallel
+
+# Notes:
+# - Adjust paths to match your project structure
+# - Consider separate gowatch.yaml for backend and frontend
+# - Use make/scripts for complex build workflows
+# - Set working directory with: cd backend && gowatch run

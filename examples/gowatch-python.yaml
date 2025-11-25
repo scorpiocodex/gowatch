@@ -1,0 +1,81 @@
+# GoWatch Configuration for Python Projects
+# Copy this to your Python project root as gowatch.yaml
+
+watch:
+  - path: "./"
+    recursive: true
+    ignore:
+      # Python cache and compiled files
+      - "**/__pycache__/**"
+      - "**/*.pyc"
+      - "**/*.pyo"
+      - "**/*.pyd"
+      - "**/.Python"
+      - "**/*.so"
+      
+      # Virtual environments
+      - "**/venv/**"
+      - "**/env/**"
+      - "**/.venv/**"
+      - "**/ENV/**"
+      
+      # Distribution / packaging
+      - "**/*.egg"
+      - "**/*.egg-info/**"
+      - "**/dist/**"
+      - "**/build/**"
+      - "**/.eggs/**"
+      
+      # Poetry / pip
+      - "**/poetry.lock"  # Don't retrigger on lock file changes
+      - "**/.tox/**"
+      
+      # Testing
+      - "**/.pytest_cache/**"
+      - "**/.coverage"
+      - "**/htmlcov/**"
+      - "**/.hypothesis/**"
+      
+      # Type checking
+      - "**/.mypy_cache/**"
+      - "**/.pytype/**"
+      
+      # IDEs
+      - "**/.idea/**"
+      - "**/.vscode/**"
+      - "**/*.swp"
+      
+      # Version control
+      - ".git/**"
+
+on_change:
+  commands:
+    # Run pytest
+    - cmd: ["python", "-m", "pytest", "-v"]
+      run: sequential
+      timeout: "120s"
+    
+    # Type checking with mypy (optional)
+    # - cmd: ["python", "-m", "mypy", "."]
+    #   run: sequential
+    #   timeout: "60s"
+    
+    # Linting with pylint (optional)
+    # - cmd: ["python", "-m", "pylint", "src/"]
+    #   run: sequential
+    #   timeout: "60s"
+    
+    # Format check with black (optional)
+    # - cmd: ["python", "-m", "black", "--check", "."]
+    #   run: sequential
+    #   timeout: "30s"
+
+debounce: "500ms"
+max_concurrency: 1
+
+# Notes:
+# - Adjust the pytest path if your tests are in a specific directory
+# - Uncomment optional tools if you use them
+# - For Poetry projects: poetry run pytest
+# - For Django: python manage.py test
+# - For Flask: flask test or pytest

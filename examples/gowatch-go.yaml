@@ -1,0 +1,84 @@
+# GoWatch Configuration for Go Projects
+# Copy this to your Go project root as gowatch.yaml
+
+watch:
+  - path: "./"
+    recursive: true
+    ignore:
+      # Build artifacts
+      - "**/bin/**"
+      - "**/*.exe"
+      - "**/*.test"
+      - "**/*.out"
+      
+      # Vendor directory
+      - "**/vendor/**"
+      
+      # Coverage files
+      - "**/coverage.out"
+      - "**/coverage.html"
+      
+      # Go workspace
+      - "**/go.work"
+      - "**/go.work.sum"
+      
+      # IDEs
+      - "**/.idea/**"
+      - "**/.vscode/**"
+      - "**/*.swp"
+      
+      # Version control
+      - ".git/**"
+      
+      # Don't retrigger on test files (optional)
+      # - "**/*_test.go"
+
+on_change:
+  commands:
+    # Format code
+    - cmd: ["go", "fmt", "./..."]
+      run: sequential
+      timeout: "30s"
+    
+    # Run go vet
+    - cmd: ["go", "vet", "./..."]
+      run: sequential
+      timeout: "60s"
+    
+    # Run tests
+    - cmd: ["go", "test", "-v", "./..."]
+      run: sequential
+      timeout: "120s"
+    
+    # Build all packages
+    - cmd: ["go", "build", "./..."]
+      run: sequential
+      timeout: "90s"
+    
+    # Build main binary (adjust path as needed)
+    # - cmd: ["go", "build", "-o", "bin/app", "./cmd/app"]
+    #   run: sequential
+    #   timeout: "60s"
+
+debounce: "500ms"
+max_concurrency: 1
+
+# Advanced Options:
+#
+# Run tests with coverage:
+#   - cmd: ["go", "test", "-cover", "-coverprofile=coverage.out", "./..."]
+#
+# Run tests with race detector:
+#   - cmd: ["go", "test", "-race", "./..."]
+#
+# Build with optimizations:
+#   - cmd: ["go", "build", "-ldflags", "-s -w", "-o", "bin/app", "./cmd/app"]
+#
+# Run staticcheck:
+#   - cmd: ["staticcheck", "./..."]
+#
+# Run golangci-lint:
+#   - cmd: ["golangci-lint", "run"]
+#
+# Generate code (if using go generate):
+#   - cmd: ["go", "generate", "./..."]
