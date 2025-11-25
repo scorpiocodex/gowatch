@@ -542,8 +542,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - 🐛 [Report Bug](https://github.com/scorpiocodex/gowatch/issues)
 - 💡 [Request Feature](https://github.com/scorpiocodex/gowatch/issues)
-- 📧 [Email Support](mailto:support@example.com)
+- 📧 [Email Support](mailto:scorpiocodex0@gmail.com)
 
 ---
 
-Made with ❤️ by the GoWatch team
+Made with ❤️ by the scorpiocodex for Developers
