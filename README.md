@@ -1,7 +1,6 @@
 # 🕵️‍♂️ GoWatch - File Watcher & Auto-Runner
 
 [![CI](https://github.com/scorpiocodex/gowatch/workflows/CI/badge.svg)](https://github.com/scorpiocodex/gowatch/actions)
-[![Go Report Card](https://goreportcard.com/badge/github.com/scorpiocodex/gowatch)](https://goreportcard.com/report/github.com/scorpiocodex/gowatch)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A production-ready, cross-platform file watcher that automatically runs configured commands when files change. Perfect for development workflows, automated testing, and continuous deployment.
